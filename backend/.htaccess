@@ -1,0 +1,32 @@
+RewriteEngine On
+
+# Handle CORS preflight requests
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
+
+# API Routes
+RewriteRule ^api/auth/?$ api/auth.php [L]
+RewriteRule ^api/donations/?$ api/donations.php [L]
+RewriteRule ^api/school-requests/?$ api/school-requests.php [L]
+RewriteRule ^api/contact/?$ api/contact.php [L]
+
+# Deny access to sensitive files
+<Files "*.php">
+    Order Allow,Deny
+    Allow from all
+</Files>
+
+<Files "composer.json">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "composer.lock">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<FilesMatch "^\.">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>

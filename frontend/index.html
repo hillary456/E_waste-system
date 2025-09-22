@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer for Schools Kenya - Bridging the Digital Divide</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <i class="fas fa-desktop"></i>
+                    <span>CFS Kenya</span>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#donate" class="nav-link">Donate</a></li>
+                    <li><a href="#schools" class="nav-link">Schools</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <button class="login-btn" onclick="openAuthModal()">
+                        <i class="fas fa-user"></i>
+                        Login
+                    </button>
+                </div>
+                
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Bridging the <span class="highlight">Digital Divide</span> in Kenya</h1>
+                    <p>Computer for Schools Kenya transforms donated computers into learning opportunities for Kenyan students. Help us bridge the digital divide while managing e-waste responsibly.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="scrollToSection('donate')">
+                            <i class="fas fa-heart"></i>
+                            Donate Computers
+                        </button>
+                        <button class="btn btn-secondary" onclick="scrollToSection('about')">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="image-card">
+                        <img src="https://images.pexels.com/photos/5905709/pexels-photo-5905709.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Kenyan students using computers">
+                        <div class="stat-badge">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">Schools Reached</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>About Computer for Schools Kenya</h2>
+                <p>We are a non-profit organization dedicated to transforming donated computers into powerful learning tools for Kenyan schools. Since our inception, we've been committed to bridging the digital divide while promoting environmental sustainability through responsible e-waste management.</p>
+            </div>
+            
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Our Mission</h3>
+                    <p>To bridge the digital divide in Kenya by providing refurbished computers to schools and managing e-waste responsibly.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community Impact</h3>
+                    <p>Empowering students and teachers with technology while creating sustainable employment opportunities.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Environmental Care</h3>
+                    <p>Reducing electronic waste through refurbishment and proper recycling of unusable components.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>Quality Assurance</h3>
+                    <p>Every refurbished computer meets our strict quality standards before reaching schools.</p>
+                </div>
+            </div>
+            
+            <div class="impact-banner">
+                <div class="impact-content">
+                    <div class="impact-text">
+                        <h3>Transforming Lives Through Technology</h3>
+                        <p>Every donated computer has the potential to change a student's life. We carefully refurbish each device, install educational software, and ensure it reaches schools that need it most.</p>
+                        <div class="impact-stats">
+                            <div class="stat">
+                                <div class="stat-number">15,000+</div>
+                                <div class="stat-label">Computers Refurbished</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">500+</div>
+                                <div class="stat-label">Schools Supported</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="impact-image">
+                        <img src="https://images.pexels.com/photos/8926553/pexels-photo-8926553.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Students learning with computers">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>How We Make a Difference</h2>
+                <p>From donation to deployment, we ensure every computer reaches its full potential in empowering education.</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>Computer Donation</h3>
+                    <p>We accept working and non-working computers from individuals, businesses, and organizations.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Refurbishment</h3>
+                    <p>Our skilled technicians repair, upgrade, and install educational software on donated computers.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>School Distribution</h3>
+                    <p>Refurbished computers are distributed to schools across Kenya, prioritizing underserved areas.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-recycle"></i>
+                    </div>
+                    <h3>E-Waste Management</h3>
+                    <p>Components that cannot be refurbished are recycled responsibly to minimize environmental impact.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donation Form Section -->
+    <section id="donate" class="donate">
+        <div class="container">
+            <div class="section-header">
+                <div class="donate-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h2>Donate Your Computers</h2>
+                <p>Your unused computers can transform education in Kenya. Whether working or not, we can give them new life in the hands of eager students.</p>
+            </div>
+            
+            <div class="donation-container">
+                <div class="donation-info">
+                    <div class="info-card">
+                        <i class="fas fa-desktop"></i>
+                        <h4>We Accept</h4>
+                        <p>Desktops, Laptops, Tablets</p>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-truck"></i>
+                        <h4>Free Pickup</h4>
+                        <p>We collect from your location</p>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-certificate"></i>
+                        <h4>Tax Receipt</h4>
+                        <p>Official donation certificate</p>
+                    </div>
+                </div>
+                
+                <form class="donation-form" id="donationForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="donorName">Donor Name *</label>
+                            <input type="text" id="donorName" name="donorName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="organization">Organization (Optional)</label>
+                            <input type="text" id="organization" name="organization">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Pickup Address *</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="computerType">Computer Type *</label>
+                            <select id="computerType" name="computerType" required>
+                                <option value="">Select type</option>
+                                <option value="desktop">Desktop Computers</option>
+                                <option value="laptop">Laptops</option>
+                                <option value="tablet">Tablets</option>
+                                <option value="mixed">Mixed Equipment</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity">Quantity *</label>
+                            <input type="number" id="quantity" name="quantity" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="condition">Condition *</label>
+                            <select id="condition" name="condition" required>
+                                <option value="">Select condition</option>
+                                <option value="working">Working</option>
+                                <option value="needs-repair">Needs Repair</option>
+                                <option value="not-working">Not Working</option>
+                                <option value="mixed">Mixed Conditions</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pickupDate">Preferred Pickup Date</label>
+                        <input type="date" id="pickupDate" name="pickupDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Additional Information</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Please provide any additional details about the computers or special instructions..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-heart"></i>
+                        Submit Donation
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section class="impact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Impact on Education</h2>
+                <p>Together, we're transforming education in Kenya by providing students with access to technology and digital literacy.</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="stat-number">15,000+</div>
+                    <div class="stat-label">Computers Refurbished</div>
+                    <div class="stat-description">Computers given new life since 2018</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number">75,000+</div>
+                    <div class="stat-label">Students Reached</div>
+                    <div class="stat-description">Students now have access to computers</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Schools Supported</div>
+                    <div class="stat-description">Schools across Kenya now have computers</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Success Rate</div>
+                    <div class="stat-description">Of refurbished computers still in use</div>
+                </div>
+            </div>
+            
+            <div class="mission-banner">
+                <div class="mission-content">
+                    <div class="mission-text">
+                        <h3>Join Our Mission</h3>
+                        <p>Every computer you donate helps bridge the digital divide in Kenya. Be part of the solution and help us reach our goal of supporting 1,000 schools by 2025.</p>
+                        <div class="mission-stats">
+                            <div class="target-badge">Target: 1,000 schools</div>
+                            <div class="progress-text">50% Complete</div>
+                        </div>
+                    </div>
+                    <div class="progress-circle">
+                        <div class="circle">
+                            <div class="progress-text-center">
+                                <div class="progress-number">50%</div>
+                                <div class="progress-label">Complete</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schools Section -->
+    <section id="schools" class="schools">
+        <div class="container">
+            <div class="section-header">
+                <h2>Schools We've Supported</h2>
+                <p>Discover how refurbished computers are transforming education across Kenya, one school at a time.</p>
+            </div>
+            
+            <div class="regions-section">
+                <h3>Regional Distribution</h3>
+                <div class="regions-grid">
+                    <div class="region-card">
+                        <div class="region-icon nairobi">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h4>Nairobi</h4>
+                        <div class="region-number">125</div>
+                        <div class="region-label">Schools</div>
+                    </div>
+                    
+                    <div class="region-card">
+                        <div class="region-icon mombasa">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h4>Mombasa</h4>
+                        <div class="region-number">89</div>
+                        <div class="region-label">Schools</div>
+                    </div>
+                    
+                    <div class="region-card">
+                        <div class="region-icon kisumu">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h4>Kisumu</h4>
+                        <div class="region-number">76</div>
+                        <div class="region-label">Schools</div>
+                    </div>
+                    
+                    <div class="region-card">
+                        <div class="region-icon nakuru">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h4>Nakuru</h4>
+                        <div class="region-number">65</div>
+                        <div class="region-label">Schools</div>
+                    </div>
+                    
+                    <div class="region-card">
+                        <div class="region-icon eldoret">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h4>Eldoret</h4>
+                        <div class="region-number">54</div>
+                        <div class="region-label">Schools</div>
+                    </div>
+                    
+                    <div class="region-card">
+                        <div class="region-icon other">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h4>Other Regions</h4>
+                        <div class="region-number">91</div>
+                        <div class="region-label">Schools</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="success-stories">
+                <h3>Success Stories</h3>
+                <div class="stories-grid">
+                    <div class="story-card">
+                        <img src="https://images.pexels.com/photos/8926553/pexels-photo-8926553.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Kibera Primary School">
+                        <div class="story-content">
+                            <div class="story-header">
+                                <i class="fas fa-star"></i>
+                                <h4>Kibera Primary School</h4>
+                            </div>
+                            <div class="story-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Nairobi</span>
+                            </div>
+                            <div class="story-stats">
+                                <div class="story-stat">
+                                    <i class="fas fa-users"></i>
+                                    <div class="stat-number">450</div>
+                                    <div class="stat-label">Students</div>
+                                </div>
+                                <div class="story-stat">
+                                    <i class="fas fa-desktop"></i>
+                                    <div class="stat-number">25</div>
+                                    <div class="stat-label">Computers</div>
+                                </div>
+                            </div>
+                            <p class="story-quote">"Thanks to CFS Kenya, our students now have access to computers for the first time. Digital literacy scores have improved by 80%."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="story-card">
+                        <img src="https://images.pexels.com/photos/5905709/pexels-photo-5905709.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Mombasa Secondary School">
+                        <div class="story-content">
+                            <div class="story-header">
+                                <i class="fas fa-star"></i>
+                                <h4>Mombasa Secondary School</h4>
+                            </div>
+                            <div class="story-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Mombasa</span>
+                            </div>
+                            <div class="story-stats">
+                                <div class="story-stat">
+                                    <i class="fas fa-users"></i>
+                                    <div class="stat-number">320</div>
+                                    <div class="stat-label">Students</div>
+                                </div>
+                                <div class="story-stat">
+                                    <i class="fas fa-desktop"></i>
+                                    <div class="stat-number">18</div>
+                                    <div class="stat-label">Computers</div>
+                                </div>
+                            </div>
+                            <p class="story-quote">"The refurbished computers have transformed our ICT classes. Students are now preparing for digital careers with confidence."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="story-card">
+                        <img src="https://images.pexels.com/photos/8926728/pexels-photo-8926728.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Nakuru Girls School">
+                        <div class="story-content">
+                            <div class="story-header">
+                                <i class="fas fa-star"></i>
+                                <h4>Nakuru Girls School</h4>
+                            </div>
+                            <div class="story-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Nakuru</span>
+                            </div>
+                            <div class="story-stats">
+                                <div class="story-stat">
+                                    <i class="fas fa-users"></i>
+                                    <div class="stat-number">280</div>
+                                    <div class="stat-label">Students</div>
+                                </div>
+                                <div class="story-stat">
+                                    <i class="fas fa-desktop"></i>
+                                    <div class="stat-number">15</div>
+                                    <div class="stat-label">Computers</div>
+                                </div>
+                            </div>
+                            <p class="story-quote">"Our girls are now coding and creating digital projects. The computers have opened up a world of possibilities."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="schools-cta">
+                <h3>Help Us Reach More Schools</h3>
+                <p>Your school could be next! If you're an educator or know a school that could benefit from refurbished computers, we'd love to hear from you.</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary" onclick="scrollToSection('contact')">Apply for Your School</button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('donate')">Donate Computers</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Get In Touch</h2>
+                <p>Ready to donate computers or apply for your school? Have questions about our mission? We're here to help.</p>
+            </div>
+            
+            <div class="contact-container">
+                <div class="contact-form-container">
+                    <h3>Send Us a Message</h3>
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contactName">Name *</label>
+                                <input type="text" id="contactName" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactEmail">Email *</label>
+                                <input type="email" id="contactEmail" name="email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactMessage">Message *</label>
+                            <textarea id="contactMessage" name="message" rows="6" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+                    </form>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h4>Address</h4>
+                        <p>Computer for Schools Kenya<br>P.O. Box 12345-00100<br>Nairobi, Kenya</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h4>Phone</h4>
+                        <p>Main: +254 700 123 456<br>Donations: +254 700 789 012</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h4>Email</h4>
+                        <p>info@cfskenya.org<br>donations@cfskenya.org</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h4>Hours</h4>
+                        <p>Mon - Fri: 8:00 AM - 6:00 PM<br>Sat: 9:00 AM - 2:00 PM<br>Sun: Closed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <i class="fas fa-desktop"></i>
+                        <span>CFS Kenya</span>
+                    </div>
+                    <p>Bridging the digital divide in Kenya by transforming donated computers into learning opportunities for students.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#donate">Donate</a></li>
+                        <li><a href="#schools">Schools</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>What We Do</h4>
+                    <ul>
+                        <li>Computer Donations</li>
+                        <li>Refurbishment Services</li>
+                        <li>School Distribution</li>
+                        <li>Digital Literacy Training</li>
+                        <li>E-Waste Management</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <div class="contact-details">
+                        <p>P.O. Box 12345-00100</p>
+                        <p>Nairobi, Kenya</p>
+                        <p>Phone: +254 700 123 456</p>
+                        <p>Email: info@cfskenya.org</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2024 Computer for Schools Kenya. All rights reserved.</p>
+                    <div class="footer-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Sitemap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Welcome Back</h2>
+                <span class="close" onclick="closeAuthModal()">&times;</span>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+                <button class="tab-btn" onclick="switchTab('signup')">Sign Up</button>
+            </div>
+            
+            <div id="userTypeSelection" class="user-type-selection" style="display: none;">
+                <label>Account Type</label>
+                <div class="user-type-grid">
+                    <button type="button" class="user-type-btn" data-type="donor">
+                        <i class="fas fa-user"></i>
+                        <span>Donor</span>
+                    </button>
+                    <button type="button" class="user-type-btn" data-type="school">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>School</span>
+                    </button>
+                    <button type="button" class="user-type-btn" data-type="admin">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Admin</span>
+                    </button>
+                </div>
+            </div>
+            
+            <form id="authForm" class="auth-form">
+                <div id="nameField" class="form-group" style="display: none;">
+                    <label for="authName">Full Name *</label>
+                    <input type="text" id="authName" name="name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="authEmail">Email Address *</label>
+                    <input type="email" id="authEmail" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="authPassword">Password *</label>
+                    <input type="password" id="authPassword" name="password" required>
+                </div>
+                
+                <div id="confirmPasswordField" class="form-group" style="display: none;">
+                    <label for="confirmPassword">Confirm Password *</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword">
+                </div>
+                
+                <div id="organizationField" class="form-group" style="display: none;">
+                    <label for="organization">Organization</label>
+                    <input type="text" id="organization" name="organization">
+                </div>
+                
+                <div id="locationField" class="form-group" style="display: none;">
+                    <label for="location">Location *</label>
+                    <select id="location" name="location">
+                        <option value="">Select your location</option>
+                        <option value="nairobi">Nairobi</option>
+                        <option value="mombasa">Mombasa</option>
+                        <option value="kisumu">Kisumu</option>
+                        <option value="nakuru">Nakuru</option>
+                        <option value="eldoret">Eldoret</option>
+                        <option value="thika">Thika</option>
+                        <option value="machakos">Machakos</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full" id="authSubmitBtn">Sign In</button>
+            </form>
+            
+            <div id="forgotPassword" class="forgot-password">
+                <a href="#">Forgot your password?</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Modal -->
+    <div id="dashboardModal" class="modal">
+        <div class="modal-content dashboard-modal">
+            <div class="dashboard-header">
+                <div class="dashboard-brand">
+                    <i class="fas fa-desktop"></i>
+                    <span>CFS Kenya Dashboard</span>
+                </div>
+                <div class="dashboard-user">
+                    <div class="user-info">
+                        <span id="dashboardUserName">User Name</span>
+                        <small id="dashboardUserType">donor</small>
+                    </div>
+                    <button class="btn btn-secondary" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+            
+            <div class="dashboard-content">
+                <div class="dashboard-sidebar">
+                    <nav class="dashboard-nav">
+                        <button class="nav-item active" onclick="showDashboardSection('overview')">
+                            <i class="fas fa-chart-bar"></i>
+                            Overview
+                        </button>
+                        <button class="nav-item" onclick="showDashboardSection('donations')">
+                            <i class="fas fa-desktop"></i>
+                            Donations
+                        </button>
+                        <button class="nav-item" onclick="showDashboardSection('settings')">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </button>
+                    </nav>
+                </div>
+                
+                <div class="dashboard-main">
+                    <div id="overviewSection" class="dashboard-section active">
+                        <h3>Dashboard Overview</h3>
+                        <div class="dashboard-stats">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-desktop"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-number">16</div>
+                                    <div class="stat-label">Total Donations</div>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-number">8</div>
+                                    <div class="stat-label">Schools Helped</div>
+                                </div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <div class="stat-number">95</div>
+                                    <div class="stat-label">Impact Score</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="recent-activity">
+                            <h4>Recent Activity</h4>
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Donation Delivered</div>
+                                        <div class="activity-description">5 Desktop computers delivered to Kibera Primary School</div>
+                                        <div class="activity-date">2024-01-15</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-title">Processing Donation</div>
+                                        <div class="activity-description">3 Laptops currently being refurbished</div>
+                                        <div class="activity-date">2024-01-10</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="donationsSection" class="dashboard-section">
+                        <h3>My Donations</h3>
+                        <div class="donations-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Quantity</th>
+                                        <th>Status</th>
+                                        <th>School</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2024-01-15</td>
+                                        <td>Desktop Computers</td>
+                                        <td>5</td>
+                                        <td><span class="status delivered">Delivered</span></td>
+                                        <td>Kibera Primary School</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2024-01-10</td>
+                                        <td>Laptops</td>
+                                        <td>3</td>
+                                        <td><span class="status processing">Processing</span></td>
+                                        <td>Pending Assignment</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2023-12-20</td>
+                                        <td>Tablets</td>
+                                        <td>8</td>
+                                        <td><span class="status delivered">Delivered</span></td>
+                                        <td>Mombasa Secondary School</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div id="settingsSection" class="dashboard-section">
+                        <h3>Account Settings</h3>
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label for="settingsName">Full Name</label>
+                                <input type="text" id="settingsName" name="name">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="settingsEmail">Email Address</label>
+                                <input type="email" id="settingsEmail" name="email">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="settingsOrganization">Organization</label>
+                                <input type="text" id="settingsOrganization" name="organization">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="settingsLocation">Location</label>
+                                <select id="settingsLocation" name="location">
+                                    <option value="nairobi">Nairobi</option>
+                                    <option value="mombasa">Mombasa</option>
+                                    <option value="kisumu">Kisumu</option>
+                                    <option value="nakuru">Nakuru</option>
+                                    <option value="eldoret">Eldoret</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Update Settings</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
