@@ -28,10 +28,15 @@ try {
     $user = new User($db);
  
     $raw_input = file_get_contents("php://input");
+     
+    if (trim($raw_input) === "") {
+        throw new Exception("Request body is empty. The server received no data. Check Content-Type header.");
+    }
+
     $data = json_decode($raw_input);
  
     if (json_last_error() !== JSON_ERROR_NONE) {
-        throw new Exception("Invalid JSON received: " . json_last_error_msg());
+        throw new Exception("Invalid JSON received: " . json_last_error_msg() . " | Raw Data: " . substr($raw_input, 0, 100));
     }
 
     $action = isset($_GET['action']) ? $_GET['action'] : '';
@@ -40,15 +45,14 @@ try {
         $missing_fields = [];
         if (empty($data->name)) $missing_fields[] = 'name';
         if (empty($data->email)) $missing_fields[] = 'email';
-        if (empty($data->password)) $missing_fields[] = 'password';
+        if (empty($data->password)) $missing_fields[] = 'password'; 
         if (empty($data->user_type)) $missing_fields[] = 'user_type';
 
         if (count($missing_fields) > 0) {
             http_response_code(400);
             echo json_encode(array(
                 "message" => "Data is incomplete.",
-                "missing_fields" => $missing_fields,
-                "received_data" => $data 
+                "missing_fields" => $missing_fields
             ));
             exit();
         }
