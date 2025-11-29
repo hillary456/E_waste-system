@@ -1,5 +1,5 @@
  
-const API_URL = "http://localhost/e_waste-system/backend/src/api";
+const API_URL = "http://localhost/electronic-waste/backend/src/api";
  
 let currentUser = null;
 let isLoginMode = true;
