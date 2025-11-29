@@ -1,15 +1,17 @@
- 
 const API_URL = "http://localhost/electronic-waste/backend/src/api";
- 
+
+// Global variables
 let currentUser = null;
 let isLoginMode = true;
 let selectedUserType = 'donor';
- 
+
+// DOM Content Loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
-    checkSession(); 
+    checkSession(); // Check if user is already logged in
 });
- 
+
+// Initialize the application
 function initializeApp() {
     setupEventListeners();
     setupSmoothScrolling();
@@ -17,21 +19,24 @@ function initializeApp() {
     setupFormValidation();
     animateOnScroll();
 }
- 
+
+// Check for existing session
 function checkSession() {
     const storedUser = sessionStorage.getItem('currentUser');
     if (storedUser) {
-        currentUser = JSON.parse(storedUser); 
+        currentUser = JSON.parse(storedUser);
         console.log("Restored session for:", currentUser.name);
-         
     }
 }
- 
-function setupEventListeners() { 
+
+// Setup event listeners
+function setupEventListeners() {
+    // Navigation
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', handleNavClick);
     });
     
+    // Forms
     const donationForm = document.getElementById('donationForm');
     if (donationForm) {
         donationForm.addEventListener('submit', handleDonationSubmit);
@@ -46,28 +51,35 @@ function setupEventListeners() {
     if (authForm) {
         authForm.addEventListener('submit', handleAuthSubmit);
     }
-     
+    
+    // User type selection
     document.querySelectorAll('.user-type-btn').forEach(btn => {
         btn.addEventListener('click', handleUserTypeSelect);
     });
-     
+    
+    // Modal close events
     window.addEventListener('click', handleModalClick);
-     
+    
+    // Dashboard navigation
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', handleDashboardNavClick);
-    }); 
+    });
+
+    // Logout button
     const logoutBtn = document.getElementById('logoutBtn');
     if(logoutBtn) {
         logoutBtn.addEventListener('click', logout);
     }
 }
- 
+
+// Handle navigation clicks
 function handleNavClick(e) {
     e.preventDefault();
     const targetId = e.target.getAttribute('href').substring(1);
     scrollToSection(targetId);
 }
- 
+
+// Smooth scrolling function
 function scrollToSection(sectionId) {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -79,7 +91,9 @@ function scrollToSection(sectionId) {
             behavior: 'smooth'
         });
     }
-} 
+}
+
+// Setup smooth scrolling for all internal links
 function setupSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -89,7 +103,8 @@ function setupSmoothScrolling() {
         });
     });
 }
- 
+
+// Mobile menu functionality
 function setupMobileMenu() {
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
@@ -99,7 +114,8 @@ function setupMobileMenu() {
             navMenu.classList.toggle('active');
             hamburger.classList.toggle('active');
         });
-         
+        
+        // Close menu when clicking on a link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
@@ -108,7 +124,8 @@ function setupMobileMenu() {
         });
     }
 }
- 
+
+// Form validation setup
 function setupFormValidation() {
     const forms = document.querySelectorAll('form');
     forms.forEach(form => {
@@ -119,18 +136,18 @@ function setupFormValidation() {
         });
     });
 }
- 
+
+// Validate individual field
 function validateField(e) {
     const field = e.target;
     const value = field.value.trim();
-     
     field.classList.remove('error');
-     
+    
     if (field.hasAttribute('required') && !value) {
         showFieldError(field, 'This field is required');
         return false;
     }
-     
+    
     if (field.type === 'email' && value) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(value)) {
@@ -138,25 +155,16 @@ function validateField(e) {
             return false;
         }
     }
-     
-    if (field.type === 'tel' && value) { 
-        if (value.length < 10) {
-            showFieldError(field, 'Please enter a valid phone number');
-            return false;
-        }
-    }
     
     return true;
 }
- 
+
+// Show field error
 function showFieldError(field, message) {
     field.classList.add('error');
-     
     const existingError = field.parentNode.querySelector('.error-message');
-    if (existingError) {
-        existingError.remove();
-    }
-     
+    if (existingError) existingError.remove();
+    
     const errorDiv = document.createElement('div');
     errorDiv.className = 'error-message';
     errorDiv.textContent = message;
@@ -166,31 +174,27 @@ function showFieldError(field, message) {
     
     field.parentNode.appendChild(errorDiv);
 }
- 
+
+// Clear field error
 function clearFieldError(e) {
     const field = e.target;
     field.classList.remove('error');
-    
     const errorMessage = field.parentNode.querySelector('.error-message');
-    if (errorMessage) {
-        errorMessage.remove();
-    }
+    if (errorMessage) errorMessage.remove();
 }
- 
+
+// Handle donation form submission
 async function handleDonationSubmit(e) {
     e.preventDefault();
-    
     const formData = new FormData(e.target);
     const donationData = Object.fromEntries(formData.entries());
-     
-    if (!validateForm(e.target)) {
-        return;
-    }
- 
+    
+    if (!validateForm(e.target)) return;
+
     if (currentUser && currentUser.user_id) {
         donationData.user_id = currentUser.user_id;
     }
-     
+    
     const submitBtn = e.target.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
@@ -213,23 +217,21 @@ async function handleDonationSubmit(e) {
         }
     } catch (error) {
         console.error('Error:', error);
-        showNotification('Connection error. Please try again later.', 'error');
-    } finally { 
+        showNotification('Connection error. Is XAMPP running?', 'error');
+    } finally {
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
     }
 }
- 
+
+// Handle contact form submission
 async function handleContactSubmit(e) {
     e.preventDefault();
-    
     const formData = new FormData(e.target);
     const contactData = Object.fromEntries(formData.entries());
-     
-    if (!validateForm(e.target)) {
-        return;
-    }
-     
+    
+    if (!validateForm(e.target)) return;
+    
     const submitBtn = e.target.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
@@ -252,29 +254,28 @@ async function handleContactSubmit(e) {
         }
     } catch (error) {
         console.error('Error:', error);
-        showNotification('Connection error. Please try again.', 'error');
+        showNotification('Connection error. Is XAMPP running?', 'error');
     } finally {
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
     }
 }
- 
+
+// Validate entire form
 function validateForm(form) {
     const requiredFields = form.querySelectorAll('input[required], select[required], textarea[required]');
     let isValid = true;
-    
     requiredFields.forEach(field => {
-        if (!validateField({ target: field })) {
-            isValid = false;
-        }
+        if (!validateField({ target: field })) isValid = false;
     });
-    
     return isValid;
-} 
-function showNotification(message, type = 'info') { 
+}
+
+// Show notification
+function showNotification(message, type = 'info') {
     const existingNotifications = document.querySelectorAll('.notification');
     existingNotifications.forEach(notification => notification.remove());
-     
+    
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.innerHTML = `
@@ -286,30 +287,19 @@ function showNotification(message, type = 'info') {
             </button>
         </div>
     `;
-     
+    
     notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
+        position: fixed; top: 100px; right: 20px;
         background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 8px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        z-index: 3000;
-        max-width: 400px;
-        animation: slideInRight 0.3s ease;
+        color: white; padding: 1rem 1.5rem; border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); z-index: 3000;
+        max-width: 400px; animation: slideInRight 0.3s ease;
     `;
-     
     document.body.appendChild(notification);
-     
-    setTimeout(() => {
-        if (notification.parentNode) {
-            notification.remove();
-        }
-    }, 5000);
+    setTimeout(() => { if (notification.parentNode) notification.remove(); }, 5000);
 }
- 
+
+// Authentication Modal Functions
 function openAuthModal() {
     const modal = document.getElementById('authModal');
     modal.style.display = 'block';
@@ -325,38 +315,30 @@ function closeAuthModal() {
 
 function switchTab(mode) {
     isLoginMode = mode === 'login';
-     
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     event.target.classList.add('active');
-     
+    
     document.getElementById('modalTitle').textContent = isLoginMode ? 'Welcome Back' : 'Join CFS Kenya';
-     
     document.getElementById('authSubmitBtn').textContent = isLoginMode ? 'Sign In' : 'Create Account';
-     
+    
     document.getElementById('nameField').style.display = isLoginMode ? 'none' : 'block';
     document.getElementById('confirmPasswordField').style.display = isLoginMode ? 'none' : 'block';
     document.getElementById('organizationField').style.display = isLoginMode ? 'none' : 'block';
     document.getElementById('locationField').style.display = isLoginMode ? 'none' : 'block';
     document.getElementById('userTypeSelection').style.display = isLoginMode ? 'none' : 'block';
     document.getElementById('forgotPassword').style.display = isLoginMode ? 'block' : 'none';
-     
+    
     resetAuthForm();
 }
 
-function handleUserTypeSelect(e) { 
-    document.querySelectorAll('.user-type-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-     
+function handleUserTypeSelect(e) {
+    document.querySelectorAll('.user-type-btn').forEach(btn => btn.classList.remove('active'));
     e.currentTarget.classList.add('active');
     selectedUserType = e.currentTarget.dataset.type;
-     
+    
     const orgField = document.getElementById('organizationField');
     const orgLabel = orgField.querySelector('label');
-    
-    const orgInput = document.getElementById('authOrganization');
+    const orgInput = document.getElementById('authOrganization'); // Corrected ID
     
     if (selectedUserType === 'school') {
         orgLabel.textContent = 'School Name *';
@@ -371,30 +353,24 @@ function handleUserTypeSelect(e) {
         orgInput.required = true;
         orgInput.placeholder = 'Organization name';
     }
-} 
+}
+
+// Handle auth (Login/Register) submission
 async function handleAuthSubmit(e) {
     e.preventDefault();
-    
     const formData = new FormData(e.target);
     const authData = Object.fromEntries(formData.entries());
-     
     authData.user_type = selectedUserType;
- 
-    if (!validateForm(e.target)) {
-        return;
-    }
-     
+
+    if (!validateForm(e.target)) return;
+    
     if (!isLoginMode) {
         if (authData.password !== authData.confirmPassword) {
             showNotification('Passwords do not match!', 'error');
             return;
         }
-        if (authData.password.length < 6) {
-            showNotification('Password must be at least 6 characters long!', 'error');
-            return;
-        }
     }
-     
+    
     const submitBtn = e.target.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
@@ -403,34 +379,37 @@ async function handleAuthSubmit(e) {
     const action = isLoginMode ? 'login' : 'register';
     
     try {
+        // Updated to use the correct API_URL
         const response = await fetch(`${API_URL}/auth.php?action=${action}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(authData)
         });
 
-        const result = await response.json();
+        // Try to parse JSON, but if it fails (HTML 404/500), catch it
+        let result;
+        try {
+            result = await response.json();
+        } catch (jsonError) {
+            throw new Error("Server returned invalid JSON. Check your API_URL and PHP errors.");
+        }
 
         if (response.ok) {
-            
             if (isLoginMode) {
                 currentUser = {
                     user_id: result.user_id,
                     name: result.name,
                     email: authData.email,
-                    type: result.user_type, 
+                    type: result.user_type,
                     organization: result.organization || '',
                     location: result.location || ''
                 };
-                 
                 sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
-                
                 closeAuthModal();
                 openDashboard();
                 showNotification(`Welcome back, ${currentUser.name}!`, 'success');
-            } else { 
+            } else {
                 showNotification('Account created successfully! Please login.', 'success');
-                 
                 switchTab('login');
             }
         } else {
@@ -438,7 +417,7 @@ async function handleAuthSubmit(e) {
         }
     } catch (error) {
         console.error('Error:', error);
-        showNotification('Connection error. Please try again.', 'error');
+        showNotification('Connection error. Check console for details.', 'error');
     } finally {
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
@@ -448,29 +427,24 @@ async function handleAuthSubmit(e) {
 function resetAuthForm() {
     const form = document.getElementById('authForm');
     form.reset();
-     
     document.querySelectorAll('.error-message').forEach(error => error.remove());
     document.querySelectorAll('.error').forEach(field => field.classList.remove('error'));
-     
-    document.querySelectorAll('.user-type-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
+    document.querySelectorAll('.user-type-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelector('.user-type-btn[data-type="donor"]').classList.add('active');
     selectedUserType = 'donor';
 }
 
- 
+// Dashboard Functions
 function openDashboard() {
     const modal = document.getElementById('dashboardModal');
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
-     
+    
     if (currentUser) {
         document.getElementById('dashboardUserName').textContent = currentUser.name;
         document.getElementById('dashboardUserType').textContent = currentUser.type;
         updateSettingsForm();
     }
-     
     showDashboardSection('overview');
 }
 
@@ -480,14 +454,11 @@ function closeDashboard() {
     document.body.style.overflow = 'auto';
 }
 
-function showDashboardSection(sectionName) { 
-    document.querySelectorAll('.dashboard-section').forEach(section => {
-        section.classList.remove('active');
-    });
-     
+function showDashboardSection(sectionName) {
+    document.querySelectorAll('.dashboard-section').forEach(section => section.classList.remove('active'));
     const targetSection = document.getElementById(sectionName + 'Section');
     if(targetSection) targetSection.classList.add('active');
-     
+    
     document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.remove('active');
         if(item.textContent.toLowerCase().trim() === sectionName) {
@@ -520,41 +491,25 @@ function logout() {
     sessionStorage.removeItem('currentUser');
     closeDashboard();
     showNotification('You have been logged out successfully.', 'success');
-     
 }
- 
+
 function handleModalClick(e) {
     const authModal = document.getElementById('authModal');
     const dashboardModal = document.getElementById('dashboardModal');
-    
-    if (e.target === authModal) {
-        closeAuthModal();
-    }
-    
-    if (e.target === dashboardModal) {
-        closeDashboard();
-    }
+    if (e.target === authModal) closeAuthModal();
+    if (e.target === dashboardModal) closeDashboard();
 }
- 
+
 function animateOnScroll() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in-up');
-            }
+            if (entry.isIntersecting) entry.target.classList.add('fade-in-up');
         });
     }, observerOptions);
-     
-    document.querySelectorAll('.value-card, .service-card, .stat-card, .story-card, .region-card').forEach(el => {
-        observer.observe(el);
-    });
+    document.querySelectorAll('.value-card, .service-card, .stat-card, .story-card, .region-card').forEach(el => observer.observe(el));
 }
- 
+
 window.addEventListener('scroll', () => {
     const header = document.querySelector('.header');
     if (window.scrollY > 100) {
@@ -565,13 +520,10 @@ window.addEventListener('scroll', () => {
         header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
     }
 });
- 
+
 const style = document.createElement('style');
 style.textContent = `
-    @keyframes slideInRight {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
+    @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     .notification-content { display: flex; align-items: center; gap: 12px; }
     .notification-close { background: none; border: none; color: inherit; cursor: pointer; padding: 4px; border-radius: 4px; transition: background-color 0.2s; }
     .notification-close:hover { background-color: rgba(255, 255, 255, 0.2); }
