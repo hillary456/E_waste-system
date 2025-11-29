@@ -1,10 +1,33 @@
 <?php 
-// No CORS headers here - they're handled by .htaccess
-// Just include your normal files and handle the request
-
+ini_set('display_errors', 0);
+error_reporting(E_ALL); 
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    http_response_code(500);
+    header('Content-Type: application/json');
+    echo json_encode(array(
+        "message" => "Server Error (PHP)", 
+        "details" => "$errstr in $errfile on line $errline"
+    ));
+    exit();
+});
+ 
+register_shutdown_function(function() {
+    $error = error_get_last();
+    if ($error && ($error['type'] === E_ERROR || $error['type'] === E_PARSE)) {
+        http_response_code(500);
+        header('Content-Type: application/json');
+        echo json_encode(array(
+            "message" => "Critical Server Crash", 
+            "details" => $error['message'] . " in " . $error['file'] . ":" . $error['line']
+        ));
+    }
+});
+ 
+include_once '../config/cors.php';
+ 
 include_once '../config/database.php';
 include_once '../models/User.php';
-
+ 
 $database = new Database();
 $db = $database->getConnection();
 $user = new User($db);
@@ -22,7 +45,7 @@ if ($action == 'register') {
     ) {
         $user->name = $data->name;
         $user->email = $data->email;
-        $user->password = password_hash($data->password, PASSWORD_BCRYPT);  
+        $user->password = password_hash($data->password, PASSWORD_BCRYPT);
         $user->user_type = $data->user_type;
         $user->organization = $data->organization ?? '';
         $user->phone = $data->phone ?? '';
@@ -50,11 +73,13 @@ elseif ($action == 'login') {
             "message" => "Successful login.",
             "user_id" => $user->id,
             "name" => $user->name,
-            "user_type" => $user->user_type
+            "user_type" => $user->user_type,
+            "organization" => $user->organization,
+            "location" => $user->location
         ));
     } else {
         http_response_code(401);
-        echo json_encode(array("message" => "Login failed."));
+        echo json_encode(array("message" => "Login failed. Check your email or password."));
     }
 }
 ?>
