@@ -7,7 +7,7 @@ let selectedUserType = 'donor';
  
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
-    checkSession();  
+    checkSession(); 
 });
  
 function initializeApp() {
@@ -23,7 +23,7 @@ function checkSession() {
     if (storedUser) {
         currentUser = JSON.parse(storedUser); 
         console.log("Restored session for:", currentUser.name);
-       
+         
     }
 }
  
@@ -31,7 +31,7 @@ function setupEventListeners() {
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', handleNavClick);
     });
-   
+    
     const donationForm = document.getElementById('donationForm');
     if (donationForm) {
         donationForm.addEventListener('submit', handleDonationSubmit);
@@ -52,11 +52,10 @@ function setupEventListeners() {
     });
      
     window.addEventListener('click', handleModalClick);
- 
+     
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', handleDashboardNavClick);
-    });
- 
+    }); 
     const logoutBtn = document.getElementById('logoutBtn');
     if(logoutBtn) {
         logoutBtn.addEventListener('click', logout);
@@ -80,8 +79,7 @@ function scrollToSection(sectionId) {
             behavior: 'smooth'
         });
     }
-}
- 
+} 
 function setupSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -101,7 +99,7 @@ function setupMobileMenu() {
             navMenu.classList.toggle('active');
             hamburger.classList.toggle('active');
         });
-      
+         
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
@@ -125,9 +123,9 @@ function setupFormValidation() {
 function validateField(e) {
     const field = e.target;
     const value = field.value.trim();
-    
+     
     field.classList.remove('error');
-    
+     
     if (field.hasAttribute('required') && !value) {
         showFieldError(field, 'This field is required');
         return false;
@@ -272,8 +270,7 @@ function validateForm(form) {
     });
     
     return isValid;
-}
- 
+} 
 function showNotification(message, type = 'info') { 
     const existingNotifications = document.querySelectorAll('.notification');
     existingNotifications.forEach(notification => notification.remove());
@@ -305,7 +302,7 @@ function showNotification(message, type = 'info') {
     `;
      
     document.body.appendChild(notification);
-    
+     
     setTimeout(() => {
         if (notification.parentNode) {
             notification.remove();
@@ -335,16 +332,16 @@ function switchTab(mode) {
     event.target.classList.add('active');
      
     document.getElementById('modalTitle').textContent = isLoginMode ? 'Welcome Back' : 'Join CFS Kenya';
-   
+     
     document.getElementById('authSubmitBtn').textContent = isLoginMode ? 'Sign In' : 'Create Account';
-   
+     
     document.getElementById('nameField').style.display = isLoginMode ? 'none' : 'block';
     document.getElementById('confirmPasswordField').style.display = isLoginMode ? 'none' : 'block';
     document.getElementById('organizationField').style.display = isLoginMode ? 'none' : 'block';
     document.getElementById('locationField').style.display = isLoginMode ? 'none' : 'block';
     document.getElementById('userTypeSelection').style.display = isLoginMode ? 'none' : 'block';
     document.getElementById('forgotPassword').style.display = isLoginMode ? 'block' : 'none';
-    
+     
     resetAuthForm();
 }
 
@@ -358,7 +355,8 @@ function handleUserTypeSelect(e) {
      
     const orgField = document.getElementById('organizationField');
     const orgLabel = orgField.querySelector('label');
-    const orgInput = document.getElementById('organization');
+    
+    const orgInput = document.getElementById('authOrganization');
     
     if (selectedUserType === 'school') {
         orgLabel.textContent = 'School Name *';
@@ -373,14 +371,13 @@ function handleUserTypeSelect(e) {
         orgInput.required = true;
         orgInput.placeholder = 'Organization name';
     }
-}
- 
+} 
 async function handleAuthSubmit(e) {
     e.preventDefault();
     
     const formData = new FormData(e.target);
     const authData = Object.fromEntries(formData.entries());
-  
+     
     authData.user_type = selectedUserType;
  
     if (!validateForm(e.target)) {
@@ -432,7 +429,8 @@ async function handleAuthSubmit(e) {
                 openDashboard();
                 showNotification(`Welcome back, ${currentUser.name}!`, 'success');
             } else { 
-                showNotification('Account created successfully! Please login.', 'success'); 
+                showNotification('Account created successfully! Please login.', 'success');
+                 
                 switchTab('login');
             }
         } else {
@@ -460,18 +458,19 @@ function resetAuthForm() {
     document.querySelector('.user-type-btn[data-type="donor"]').classList.add('active');
     selectedUserType = 'donor';
 }
+
  
 function openDashboard() {
     const modal = document.getElementById('dashboardModal');
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
-    
+     
     if (currentUser) {
         document.getElementById('dashboardUserName').textContent = currentUser.name;
         document.getElementById('dashboardUserType').textContent = currentUser.type;
         updateSettingsForm();
     }
- 
+     
     showDashboardSection('overview');
 }
 
@@ -485,10 +484,10 @@ function showDashboardSection(sectionName) {
     document.querySelectorAll('.dashboard-section').forEach(section => {
         section.classList.remove('active');
     });
- 
+     
     const targetSection = document.getElementById(sectionName + 'Section');
     if(targetSection) targetSection.classList.add('active');
-    
+     
     document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.remove('active');
         if(item.textContent.toLowerCase().trim() === sectionName) {
@@ -521,7 +520,7 @@ function logout() {
     sessionStorage.removeItem('currentUser');
     closeDashboard();
     showNotification('You have been logged out successfully.', 'success');
- 
+     
 }
  
 function handleModalClick(e) {
@@ -566,7 +565,7 @@ window.addEventListener('scroll', () => {
         header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
     }
 });
-
+ 
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideInRight {

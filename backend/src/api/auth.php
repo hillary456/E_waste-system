@@ -1,14 +1,15 @@
-<?php
+<?php 
 include_once '../config/cors.php';
+ 
 include_once '../config/database.php';
 include_once '../models/User.php';
 
 $database = new Database();
 $db = $database->getConnection();
 $user = new User($db);
-
+ 
 $data = json_decode(file_get_contents("php://input"));
-
+ 
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 
 if ($action == 'register') {
@@ -20,7 +21,7 @@ if ($action == 'register') {
     ) {
         $user->name = $data->name;
         $user->email = $data->email;
-        $user->password = password_hash($data->password, PASSWORD_BCRYPT); // Secure hash
+        $user->password = password_hash($data->password, PASSWORD_BCRYPT);  
         $user->user_type = $data->user_type;
         $user->organization = $data->organization ?? '';
         $user->phone = $data->phone ?? '';
