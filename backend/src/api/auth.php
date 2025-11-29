@@ -1,6 +1,7 @@
 <?php 
-include_once '../config/cors.php';
- 
+// No CORS headers here - they're handled by .htaccess
+// Just include your normal files and handle the request
+
 include_once '../config/database.php';
 include_once '../models/User.php';
 

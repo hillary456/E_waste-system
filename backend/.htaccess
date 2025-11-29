@@ -1,14 +1,20 @@
 RewriteEngine On
 
-# Handle CORS preflight requests
+# CORS Headers - Set globally for all requests
+Header always set Access-Control-Allow-Origin "http://127.0.0.1:5500"
+Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+Header always set Access-Control-Allow-Credentials "true"
+
+# Handle CORS preflight requests - MUST come before other rewrite rules
 RewriteCond %{REQUEST_METHOD} OPTIONS
 RewriteRule ^(.*)$ $1 [R=200,L]
 
 # API Routes
-RewriteRule ^api/auth/?$ api/auth.php [L]
-RewriteRule ^api/donations/?$ api/donations.php [L]
-RewriteRule ^api/school-requests/?$ api/school-requests.php [L]
-RewriteRule ^api/contact/?$ api/contact.php [L]
+RewriteRule ^api/auth/?$ src/api/auth.php [L]
+RewriteRule ^api/donations/?$ src/api/donations.php [L]
+RewriteRule ^api/school-requests/?$ src/api/school-requests.php [L]
+RewriteRule ^api/contact/?$ src/api/contact.php [L]
 
 # Deny access to sensitive files
 <Files "*.php">
