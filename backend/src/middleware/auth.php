@@ -4,7 +4,7 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 class Auth {
-    private $secret_key = "your-secret-key-here";
+    private $secret_key = "secrete_key_for_jwt_token_generation-😂-🥲-❤️";
     private $issuer = "cfs-kenya";
     private $audience = "cfs-kenya-users";
     private $issuedAt;
