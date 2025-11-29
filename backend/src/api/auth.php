@@ -1,6 +1,6 @@
 <?php
 require_once '../config/cors.php';
-require_once '../controllers/AuthController.php';
+require_once '../controller/AuthController.php';
 
 $authController = new AuthController();
 $method = $_SERVER['REQUEST_METHOD'];

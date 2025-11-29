@@ -1,6 +1,6 @@
 <?php
 require_once '../config/cors.php';
-require_once '../controllers/SchoolRequestController.php';
+require_once '../controller/SchoolRequestController.php';
 require_once '../middleware/auth.php';
 
 $schoolRequestController = new SchoolRequestController();

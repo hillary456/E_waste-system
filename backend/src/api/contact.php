@@ -1,6 +1,6 @@
 <?php
 require_once '../config/cors.php';
-require_once '../controllers/ContactController.php';
+require_once '../controller/ContactController.php';
 require_once '../middleware/auth.php';
 
 $contactController = new ContactController();

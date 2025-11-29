@@ -1,6 +1,6 @@
 <?php
 require_once '../config/cors.php';
-require_once '../controllers/DonationController.php';
+require_once '../controller/DonationController.php';
 require_once '../middleware/auth.php';
 
 $donationController = new DonationController();
