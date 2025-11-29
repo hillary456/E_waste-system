@@ -1,50 +1,58 @@
 <?php
-require_once '../config/cors.php';
-require_once '../controller/AuthController.php';
+include_once '../config/cors.php';
+include_once '../config/database.php';
+include_once '../models/User.php';
 
-$authController = new AuthController();
-$method = $_SERVER['REQUEST_METHOD'];
+$database = new Database();
+$db = $database->getConnection();
+$user = new User($db);
 
-switch($method) {
-    case 'POST':
-        $data = json_decode(file_get_contents("php://input"), true);
-        $action = $data['action'] ?? '';
+$data = json_decode(file_get_contents("php://input"));
 
-        switch($action) {
-            case 'register':
-                $result = $authController->register($data);
-                break;
-            
-            case 'login':
-                $result = $authController->login($data);
-                break;
-            
-            default:
-                $result = array("success" => false, "message" => "Invalid action");
-                break;
+$action = isset($_GET['action']) ? $_GET['action'] : '';
+
+if ($action == 'register') {
+    if(
+        !empty($data->name) &&
+        !empty($data->email) &&
+        !empty($data->password) &&
+        !empty($data->user_type)
+    ) {
+        $user->name = $data->name;
+        $user->email = $data->email;
+        $user->password = password_hash($data->password, PASSWORD_BCRYPT); // Secure hash
+        $user->user_type = $data->user_type;
+        $user->organization = $data->organization ?? '';
+        $user->phone = $data->phone ?? '';
+        $user->location = $data->location ?? '';
+
+        if($user->create()) {
+            http_response_code(201);
+            echo json_encode(array("message" => "User was created."));
+        } else {
+            http_response_code(503);
+            echo json_encode(array("message" => "Unable to create user. Email might already exist."));
         }
-        break;
+    } else {
+        http_response_code(400);
+        echo json_encode(array("message" => "Unable to create user. Data is incomplete."));
+    }
+} 
+elseif ($action == 'login') {
+    $user->email = $data->email;
+    $email_exists = $user->emailExists();
 
-    case 'GET':
-        // Get user profile (requires authentication)
-        $auth = new Auth();
-        $user_data = $auth->requireAuth();
-        $result = $authController->getProfile($user_data['id']);
-        break;
-
-    case 'PUT':
-        // Update user profile (requires authentication)
-        $auth = new Auth();
-        $user_data = $auth->requireAuth();
-        $data = json_decode(file_get_contents("php://input"), true);
-        $result = $authController->updateProfile($user_data['id'], $data);
-        break;
-
-    default:
-        $result = array("success" => false, "message" => "Method not allowed");
-        http_response_code(405);
-        break;
+    if($email_exists && password_verify($data->password, $user->password)) {
+        http_response_code(200);
+        echo json_encode(array(
+            "message" => "Successful login.",
+            "user_id" => $user->id,
+            "name" => $user->name,
+            "user_type" => $user->user_type
+        ));
+    } else {
+        http_response_code(401);
+        echo json_encode(array("message" => "Login failed."));
+    }
 }
-
-echo json_encode($result);
 ?>

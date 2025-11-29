@@ -216,7 +216,8 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="donorName">Donor Name *</label>
-                            <input type="text" id="donorName" name="donorName" required>
+                            <!-- UPDATED: name="donor_name" to match DB -->
+                            <input type="text" id="donorName" name="donor_name" required>
                         </div>
                         <div class="form-group">
                             <label for="organization">Organization (Optional)</label>
@@ -243,7 +244,8 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="computerType">Computer Type *</label>
-                            <select id="computerType" name="computerType" required>
+                            <!-- UPDATED: name="computer_type" to match DB -->
+                            <select id="computerType" name="computer_type" required>
                                 <option value="">Select type</option>
                                 <option value="desktop">Desktop Computers</option>
                                 <option value="laptop">Laptops</option>
@@ -257,7 +259,8 @@
                         </div>
                         <div class="form-group">
                             <label for="condition">Condition *</label>
-                            <select id="condition" name="condition" required>
+                            <!-- UPDATED: name="condition_status" to match DB -->
+                            <select id="condition" name="condition_status" required>
                                 <option value="">Select condition</option>
                                 <option value="working">Working</option>
                                 <option value="needs-repair">Needs Repair</option>
@@ -269,7 +272,8 @@
                     
                     <div class="form-group">
                         <label for="pickupDate">Preferred Pickup Date</label>
-                        <input type="date" id="pickupDate" name="pickupDate">
+                        <!-- UPDATED: name="pickup_date" to match DB -->
+                        <input type="date" id="pickupDate" name="pickup_date">
                     </div>
                     
                     <div class="form-group">
