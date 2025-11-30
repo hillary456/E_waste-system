@@ -4,7 +4,7 @@ const API_URL = "http://localhost/electronic-waste/backend/src/api";
 let currentUser = null;
 let isLoginMode = true;
 let selectedUserType = 'donor';
- 
+
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
     checkSession();
@@ -16,15 +16,12 @@ function initializeApp() {
     setupMobileMenu();
     setupFormValidation();
     animateOnScroll();
-     
     switchTab('login');
 }
 
 function checkSession() {
     const storedUser = sessionStorage.getItem('currentUser');
-    if (storedUser) {
-        currentUser = JSON.parse(storedUser);
-    }
+    if (storedUser) currentUser = JSON.parse(storedUser);
 }
 
 function setupEventListeners() {
@@ -47,13 +44,11 @@ function setupEventListeners() {
     if(logoutBtn) logoutBtn.addEventListener('click', logout);
 }
  
-
 function handleNavClick(e) {
     e.preventDefault();
     const targetId = e.target.getAttribute('href').substring(1);
     scrollToSection(targetId);
 }
-
 function scrollToSection(sectionId) {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -62,7 +57,6 @@ function scrollToSection(sectionId) {
         window.scrollTo({ top: elementPosition, behavior: 'smooth' });
     }
 }
-
 function setupSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -72,7 +66,6 @@ function setupSmoothScrolling() {
         });
     });
 }
-
 function setupMobileMenu() {
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
@@ -89,18 +82,17 @@ function setupMobileMenu() {
         });
     }
 }
-
  
 function setupFormValidation() {
     const forms = document.querySelectorAll('form');
-    forms.forEach(form => { 
+    forms.forEach(form => {
         form.addEventListener('input', function(e) {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') {
+            if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) {
                clearFieldError(e);
             }
         });
         form.addEventListener('focusout', function(e) {
-             if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') {
+             if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) {
                if(e.target.hasAttribute('required')) validateField({target: e.target});
             }
         });
@@ -110,8 +102,9 @@ function setupFormValidation() {
 function validateField(e) {
     const field = e.target;
     const value = field.value.trim();
-    field.classList.remove('error'); 
-    if (field.offsetParent === null) return true;  
+    field.classList.remove('error');
+     
+    if (field.offsetParent === null) return true;
 
     if (field.hasAttribute('required') && !value) {
         showFieldError(field, 'This field is required');
@@ -125,7 +118,6 @@ function validateField(e) {
             return false;
         }
     }
-    
     return true;
 }
 
@@ -140,7 +132,6 @@ function showFieldError(field, message) {
     errorDiv.style.color = '#ef4444';
     errorDiv.style.fontSize = '0.875rem';
     errorDiv.style.marginTop = '0.25rem';
-    
     field.parentNode.appendChild(errorDiv);
 }
 
@@ -149,12 +140,12 @@ function clearFieldError(e) {
     field.classList.remove('error');
     const errorMessage = field.parentNode.querySelector('.error-message');
     if (errorMessage) errorMessage.remove();
-} 
+}
+ 
 async function handleDonationSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
     const donationData = Object.fromEntries(formData.entries());
-    
     if (!validateForm(e.target)) return;
     if (currentUser && currentUser.user_id) donationData.user_id = currentUser.user_id;
     
@@ -162,7 +153,6 @@ async function handleDonationSubmit(e) {
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
     submitBtn.disabled = true;
-    
     try {
         const response = await fetch(`${API_URL}/donations.php`, {
             method: 'POST',
@@ -177,7 +167,6 @@ async function handleDonationSubmit(e) {
             showNotification(result.message || 'Submission failed', 'error');
         }
     } catch (error) {
-        console.error('Error:', error);
         showNotification('Connection error.', 'error');
     } finally {
         submitBtn.innerHTML = originalText;
@@ -189,14 +178,12 @@ async function handleContactSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
     const contactData = Object.fromEntries(formData.entries());
-    
     if (!validateForm(e.target)) return;
     
     const submitBtn = e.target.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
     submitBtn.disabled = true;
-    
     try {
         const response = await fetch(`${API_URL}/contact.php`, {
             method: 'POST',
@@ -211,7 +198,6 @@ async function handleContactSubmit(e) {
             showNotification(result.message || 'Failed to send', 'error');
         }
     } catch (error) {
-        console.error('Error:', error);
         showNotification('Connection error.', 'error');
     } finally {
         submitBtn.innerHTML = originalText;
@@ -222,7 +208,7 @@ async function handleContactSubmit(e) {
 function validateForm(form) {
     const requiredFields = form.querySelectorAll('input[required], select[required], textarea[required]');
     let isValid = true;
-    requiredFields.forEach(field => { 
+    requiredFields.forEach(field => {
         if (field.offsetParent !== null) { 
             if (!validateField({ target: field })) isValid = false;
         }
@@ -233,24 +219,18 @@ function validateForm(form) {
 function showNotification(message, type = 'info') {
     const existingNotifications = document.querySelectorAll('.notification');
     existingNotifications.forEach(notification => notification.remove());
-    
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
-    notification.innerHTML = `
-        <div class="notification-content">
-            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
-            <span>${message}</span>
-            <button class="notification-close" onclick="this.parentElement.parentElement.remove()"><i class="fas fa-times"></i></button>
-        </div>`;
-    
+    notification.innerHTML = `<div class="notification-content"><i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i><span>${message}</span><button class="notification-close" onclick="this.parentElement.parentElement.remove()"><i class="fas fa-times"></i></button></div>`;
     notification.style.cssText = `position: fixed; top: 100px; right: 20px; background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'}; color: white; padding: 1rem 1.5rem; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 3000; max-width: 400px; animation: slideInRight 0.3s ease;`;
     document.body.appendChild(notification);
     setTimeout(() => { if (notification.parentNode) notification.remove(); }, 5000);
-} 
+}
+ 
 function openAuthModal() {
     const modal = document.getElementById('authModal');
     modal.style.display = 'block';
-    document.body.style.overflow = 'hidden'; 
+    document.body.style.overflow = 'hidden';
     if(isLoginMode) switchTab('login'); 
     else switchTab('signup');
 }
@@ -261,43 +241,47 @@ function closeAuthModal() {
     document.body.style.overflow = 'auto';
     resetAuthForm();
 }
-
+ 
 function switchTab(mode) {
     isLoginMode = mode === 'login';
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active')); 
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     const buttons = document.querySelectorAll('.tab-btn');
-    if(isLoginMode) buttons[0].classList.add('active');
-    else buttons[1].classList.add('active');
+    if(isLoginMode && buttons.length > 0) buttons[0].classList.add('active');
+    else if(buttons.length > 1) buttons[1].classList.add('active');
     
     document.getElementById('modalTitle').textContent = isLoginMode ? 'Welcome Back' : 'Join CFS Kenya';
     document.getElementById('authSubmitBtn').textContent = isLoginMode ? 'Sign In' : 'Create Account';
      
-    const nameField = document.getElementById('nameField');
-    const confirmPassField = document.getElementById('confirmPasswordField');
-    const orgField = document.getElementById('organizationField');
-    const locField = document.getElementById('locationField');
-    const userTypeField = document.getElementById('userTypeSelection');
-    const forgotPassField = document.getElementById('forgotPassword');
+    const fields = ['nameField', 'confirmPasswordField', 'organizationField', 'locationField', 'userTypeSelection'];
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.style.display = isLoginMode ? 'none' : 'block';
+    });
     
-    nameField.style.display = isLoginMode ? 'none' : 'block';
-    confirmPassField.style.display = isLoginMode ? 'none' : 'block';
-    orgField.style.display = isLoginMode ? 'none' : 'block';
-    locField.style.display = isLoginMode ? 'none' : 'block';
-    userTypeField.style.display = isLoginMode ? 'none' : 'block';
-    forgotPassField.style.display = isLoginMode ? 'block' : 'none';
+    const forgotPassField = document.getElementById('forgotPassword');
+    if(forgotPassField) forgotPassField.style.display = isLoginMode ? 'block' : 'none';
      
     const nameInput = document.getElementById('authName');
     const confirmPassInput = document.getElementById('confirmPassword');
     const locationInput = document.getElementById('location');
+    const orgInput = document.getElementById('authOrganization');  
     
     if (isLoginMode) { 
         if(nameInput) nameInput.removeAttribute('required');
         if(confirmPassInput) confirmPassInput.removeAttribute('required');
         if(locationInput) locationInput.removeAttribute('required');
+        if(orgInput) orgInput.removeAttribute('required');
     } else { 
         if(nameInput) nameInput.setAttribute('required', 'true');
-        if(confirmPassInput) confirmPassInput.setAttribute('required', 'true'); 
+        if(confirmPassInput) confirmPassInput.setAttribute('required', 'true');
         if(locationInput) locationInput.setAttribute('required', 'true');
+         
+        const activeTypeBtn = document.querySelector('.user-type-btn.active');
+        if(activeTypeBtn && (activeTypeBtn.dataset.type === 'school' || activeTypeBtn.dataset.type === 'admin')) {
+             if(orgInput) orgInput.setAttribute('required', 'true');
+        } else {
+             if(orgInput) orgInput.removeAttribute('required');
+        }
     }
     
     resetAuthForm();
@@ -310,20 +294,22 @@ function handleUserTypeSelect(e) {
     
     const orgField = document.getElementById('organizationField');
     const orgLabel = orgField.querySelector('label');
-    const orgInput = document.getElementById('authOrganization'); 
+    const orgInput = document.getElementById('authOrganization');  
     
+    if (!orgLabel || !orgInput) return;
+
     if (selectedUserType === 'school') {
         orgLabel.textContent = 'School Name *';
-        orgInput.required = true;
         orgInput.placeholder = 'Enter school name';
+        orgInput.setAttribute('required', 'true');
     } else if (selectedUserType === 'donor') {
         orgLabel.textContent = 'Organization (Optional)';
-        orgInput.required = false;
         orgInput.placeholder = 'Company or organization';
+        orgInput.removeAttribute('required');
     } else {
         orgLabel.textContent = 'Organization *';
-        orgInput.required = true;
         orgInput.placeholder = 'Organization name';
+        orgInput.setAttribute('required', 'true');
     }
 }
 
@@ -332,7 +318,7 @@ async function handleAuthSubmit(e) {
     const formData = new FormData(e.target);
     const authData = Object.fromEntries(formData.entries());
     authData.user_type = selectedUserType;
- 
+
     if (!validateForm(e.target)) return;
     
     if (!isLoginMode) {
@@ -348,8 +334,6 @@ async function handleAuthSubmit(e) {
     submitBtn.disabled = true;
     
     const action = isLoginMode ? 'login' : 'register';
-     
-    console.log("Sending Auth Data:", JSON.stringify(authData));
     
     try {
         const response = await fetch(`${API_URL}/auth.php?action=${action}`, {
@@ -362,7 +346,7 @@ async function handleAuthSubmit(e) {
         try {
             result = await response.json();
         } catch (jsonError) {
-             throw new Error("Server returned invalid JSON. Check API URL.");
+             throw new Error("Server returned invalid JSON.");
         }
 
         if (response.ok) {
@@ -387,7 +371,6 @@ async function handleAuthSubmit(e) {
             showNotification(result.message || 'Authentication failed', 'error');
         }
     } catch (error) {
-        console.error('Error:', error);
         showNotification('Connection error.', 'error');
     } finally {
         submitBtn.innerHTML = originalText;
@@ -397,9 +380,11 @@ async function handleAuthSubmit(e) {
 
 function resetAuthForm() {
     const form = document.getElementById('authForm');
-    form.reset();
-    document.querySelectorAll('.error-message').forEach(error => error.remove());
-    document.querySelectorAll('.error').forEach(field => field.classList.remove('error'));
+    if(form) {
+        form.reset();
+        document.querySelectorAll('.error-message').forEach(error => error.remove());
+        document.querySelectorAll('.error').forEach(field => field.classList.remove('error'));
+    }
 }
  
 function openDashboard() {
@@ -407,8 +392,10 @@ function openDashboard() {
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
     if (currentUser) {
-        document.getElementById('dashboardUserName').textContent = currentUser.name;
-        document.getElementById('dashboardUserType').textContent = currentUser.type;
+        const userNameEl = document.getElementById('dashboardUserName');
+        const userTypeEl = document.getElementById('dashboardUserType');
+        if(userNameEl) userNameEl.textContent = currentUser.name;
+        if(userTypeEl) userTypeEl.textContent = currentUser.type;
         updateSettingsForm();
     }
     showDashboardSection('overview');
