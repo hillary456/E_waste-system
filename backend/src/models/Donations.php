@@ -1,4 +1,4 @@
-    <?php
+<?php
 class Donation {
     private $conn;
     private $table_name = "donations";
