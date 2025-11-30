@@ -16,8 +16,8 @@ register_shutdown_function(function() {
         header('Content-Type: application/json');
         echo json_encode(array("message" => "Critical Server Crash", "details" => $error['message']));
     }
-}); 
-
+});
+ 
 include_once '../config/cors.php';
 include_once '../config/database.php';
 include_once '../models/User.php';
@@ -30,30 +30,39 @@ try {
     $raw_input = file_get_contents("php://input");
      
     if (trim($raw_input) === "") {
-        throw new Exception("Request body is empty. The server received no data. Check Content-Type header.");
-    }
+        $method = $_SERVER['REQUEST_METHOD'];
+        $content_type = $_SERVER['CONTENT_TYPE'] ?? 'Not Set';
+         
+        $hint = "";
+        if ($method === 'GET') {
+            $hint = " | HINT: The request became a GET. This usually means a 301/302 Redirect occurred. Check your URL for typos or trailing slashes.";
+        } elseif ($method === 'OPTIONS') {
+            $hint = " | HINT: This is a CORS Preflight check. It should have been handled by cors.php.";
+        } elseif ($method === 'POST') {
+            $hint = " | HINT: It is a POST but empty. Check if you are sending JSON correctly.";
+        }
+
+        throw new Exception("Request body is empty. Server received Method: [$method] with Content-Type: [$content_type]. $hint");
+    } 
 
     $data = json_decode($raw_input);
- 
+
     if (json_last_error() !== JSON_ERROR_NONE) {
-        throw new Exception("Invalid JSON received: " . json_last_error_msg() . " | Raw Data: " . substr($raw_input, 0, 100));
+        throw new Exception("Invalid JSON received: " . json_last_error_msg());
     }
 
     $action = isset($_GET['action']) ? $_GET['action'] : '';
 
-    if ($action == 'register') { 
+    if ($action == 'register') {
         $missing_fields = [];
         if (empty($data->name)) $missing_fields[] = 'name';
         if (empty($data->email)) $missing_fields[] = 'email';
-        if (empty($data->password)) $missing_fields[] = 'password'; 
+        if (empty($data->password)) $missing_fields[] = 'password';
         if (empty($data->user_type)) $missing_fields[] = 'user_type';
 
         if (count($missing_fields) > 0) {
             http_response_code(400);
-            echo json_encode(array(
-                "message" => "Data is incomplete.",
-                "missing_fields" => $missing_fields
-            ));
+            echo json_encode(array("message" => "Data is incomplete.", "missing_fields" => $missing_fields));
             exit();
         }
 
@@ -79,7 +88,6 @@ try {
              echo json_encode(array("message" => "Email and password are required."));
              exit();
         }
-
         $user->email = $data->email;
         $email_exists = $user->emailExists();
 
@@ -100,9 +108,6 @@ try {
     }
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(array(
-        "message" => "System Error",
-        "details" => $e->getMessage()
-    ));
+    echo json_encode(array("message" => "System Error", "details" => $e->getMessage()));
 }
 ?>
