@@ -20,37 +20,37 @@ class User {
 
     // Create user
     public function create() {
-        $query = "INSERT INTO " . $this->table_name . " 
-                SET name=:name, email=:email, password=:password, user_type=:user_type, 
-                    organization=:organization, phone=:phone, location=:location";
+    $query = "INSERT INTO " . $this->table_name . " 
+            SET name=:name, email=:email, password=:password, user_type=:user_type, 
+                organization=:organization, phone=:phone, location=:location";
 
-        $stmt = $this->conn->prepare($query);
+    $stmt = $this->conn->prepare($query);
 
-        // Sanitize
-        $this->name = htmlspecialchars(strip_tags($this->name));
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->password = password_hash($this->password, PASSWORD_BCRYPT);
-        $this->user_type = htmlspecialchars(strip_tags($this->user_type));
-        $this->organization = htmlspecialchars(strip_tags($this->organization));
-        $this->phone = htmlspecialchars(strip_tags($this->phone));
-        $this->location = htmlspecialchars(strip_tags($this->location));
+    // Sanitize
+    $this->name = htmlspecialchars(strip_tags($this->name));
+    $this->email = htmlspecialchars(strip_tags($this->email)); 
+    $this->user_type = htmlspecialchars(strip_tags($this->user_type));
+    $this->organization = htmlspecialchars(strip_tags($this->organization));
+    $this->phone = htmlspecialchars(strip_tags($this->phone));
+    $this->location = htmlspecialchars(strip_tags($this->location));
 
-        // Bind values
-        $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":password", $this->password);
-        $stmt->bindParam(":user_type", $this->user_type);
-        $stmt->bindParam(":organization", $this->organization);
-        $stmt->bindParam(":phone", $this->phone);
-        $stmt->bindParam(":location", $this->location);
+    
+    $stmt->bindParam(":name", $this->name);
+    $stmt->bindParam(":email", $this->email);
+    $stmt->bindParam(":password", $this->password);  
+    $stmt->bindParam(":user_type", $this->user_type);
+    $stmt->bindParam(":organization", $this->organization);
+    $stmt->bindParam(":phone", $this->phone);
+    $stmt->bindParam(":location", $this->location);
 
-        if($stmt->execute()) {
-            $this->id = $this->conn->lastInsertId();
-            return true;
-        }
-
-        return false;
+    if ($stmt->execute()) {
+        $this->id = $this->conn->lastInsertId();
+        return true;
     }
+
+    return false;
+}
+
 
     // Read user by email
     public function readByEmail() {
