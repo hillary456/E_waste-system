@@ -1,16 +1,6 @@
 # Disable directory browsing
 Options -Indexes
 
-RewriteEngine On
- 
-
-# API Routes mapping
-RewriteRule ^api/auth/?$ src/api/auth.php [L]
-RewriteRule ^api/donations/?$ src/api/donations.php [L]
-RewriteRule ^api/school-requests/?$ src/api/school-requests.php [L]
-RewriteRule ^api/contact/?$ src/api/contact.php [L]
-
-# Security blocks
 <Files "*.php">
     Order Allow,Deny
     Allow from all
