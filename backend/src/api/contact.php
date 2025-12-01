@@ -1,4 +1,4 @@
-<?php 
+<?php  
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
 
@@ -15,8 +15,7 @@ include_once '../config/database.php';
 try {
     $database = new Database();
     $db = $database->getConnection();
-
-    
+ 
     $raw_input = file_get_contents("php://input");
     if (trim($raw_input) === "") throw new Exception("Empty Request Body");
     $data = json_decode($raw_input);
@@ -29,32 +28,44 @@ try {
             echo json_encode(array("message" => "Missing required fields."));
             exit;
         }
-
+ 
         $query = "INSERT INTO contact_messages (name, email, subject, message) VALUES (:name, :email, :subject, :message)";
         $stmt = $db->prepare($query);
         
         $name = htmlspecialchars(strip_tags($data->name));
         $email = htmlspecialchars(strip_tags($data->email));
-        $subject = htmlspecialchars(strip_tags($data->subject ?? 'General Inquiry'));
+        $subject_raw = htmlspecialchars(strip_tags($data->subject ?? 'General Inquiry'));
         $message = htmlspecialchars(strip_tags($data->message));
         
         $stmt->bindParam(":name", $name);
         $stmt->bindParam(":email", $email);
-        $stmt->bindParam(":subject", $subject);
+        $stmt->bindParam(":subject", $subject_raw);
         $stmt->bindParam(":message", $message);
         
         if($stmt->execute()) { 
-            $logFile = "../../../emails.log";  
-            $logEntry = "--- NEW MESSAGE [" . date('Y-m-d H:i:s') . "] ---\n";
-            $logEntry .= "From: $name ($email)\n";
-            $logEntry .= "Subject: $subject\n";
-            $logEntry .= "Message: $message\n";
-            $logEntry .= "------------------------------------------\n\n";
-             
-            file_put_contents($logFile, $logEntry, FILE_APPEND);
+            
+            $to = "cfs.kenya.ke@gmail.com"; 
+            
+            $email_subject = "New Contact: " . $subject_raw;
+            $email_body = "You received a new message from your website.\n\n";
+            $email_body .= "Name: " . $name . "\n";
+            $email_body .= "Email: " . $email . "\n";
+            $email_body .= "Message:\n" . $message;
+            
+            $headers = "From: " . $email . "\r\n";
+            $headers .= "Reply-To: " . $email . "\r\n";
+            $headers .= "X-Mailer: PHP/" . phpversion();
+ 
+            $sent = @mail($to, $email_subject, $email_body, $headers);
 
-            http_response_code(200);
-            echo json_encode(array("message" => "Message sent! (Logged to emails.log)"));
+            if($sent) {
+                http_response_code(200);
+                echo json_encode(array("message" => "Message sent to email successfully!"));
+            } else {
+                 
+                http_response_code(200);
+                echo json_encode(array("message" => "Message saved to DB, but Email failed (Check Server Config)."));
+            }
             
         } else {
             http_response_code(503);
